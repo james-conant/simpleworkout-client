@@ -11,7 +11,8 @@ import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
 
-// import { Auth0Provider } from "react-native-auth0";
+import { Auth0Provider, useAuth0 } from "react-native-auth0";
+import { Button, Text } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -54,16 +55,16 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    // <Auth0Provider
-    //   domain={"dev-sw6s7q1oda2gdtei.us.auth0.com"}
-    //   clientId={"jjILNCpn9XGBMGUUfnZl5ZO58zEoZ3ip"}
-    // >
+    <Auth0Provider
+      domain={"dev-sw6s7q1oda2gdtei.us.auth0.com"}
+      clientId={"jjILNCpn9XGBMGUUfnZl5ZO58zEoZ3ip"}
+    >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
       </ThemeProvider>
-    // </Auth0Provider>
+    </Auth0Provider>
   );
 }
 

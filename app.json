@@ -12,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.simpleworkoutclient"
@@ -32,8 +30,20 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-     
-      "expo-router"
+      [
+        "expo-secure-store",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to access your Face ID biometric data."
+        }
+      ],
+      [
+        "react-native-auth0",
+        {
+          "domain": "dev-sw6s7q1oda2gdtei.us.auth0.com"
+        }
+      ],
+      "expo-router",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

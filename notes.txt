@@ -1,0 +1,3 @@
+Features:
+- Previous ghost sets 
+- Show drills before starting lift
