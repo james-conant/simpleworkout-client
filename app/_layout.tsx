@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import {
   DarkTheme,
   DefaultTheme,
@@ -62,13 +62,15 @@ function RootLayoutNav() {
             name="index"
             options={{ title: "Login", headerShown: false }}
           />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(tabs)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack>
       </ThemeProvider>
     </Auth0Provider>
   );
-}
-
-{
-  /* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */
 }

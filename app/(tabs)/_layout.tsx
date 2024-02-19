@@ -1,15 +1,23 @@
-import { Tabs } from "expo-router";
-import LogoutButton from "@/components/LogoutButton";
+import { Link, Tabs } from "expo-router";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
+const ModalLink = () => (
+  <Link href="/modal">
+    <Ionicons name="menu" size={35} />
+  </Link>
+);
 const TabsLayout = () => {
   return (
     <Tabs>
       <Tabs.Screen
         name="index"
         options={{
-          headerTitle: "Home",
           title: "Home",
-          headerRight: () => <LogoutButton />,
+          tabBarLabel: "Home",
+          tabBarIcon: ({ size, color }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
+          headerRight: () => <ModalLink />,
         }}
       />
       <Tabs.Screen
@@ -17,7 +25,20 @@ const TabsLayout = () => {
         options={{
           headerTitle: "Current Workout",
           title: "Current Workout",
-          headerRight: () => <LogoutButton />,
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons
+              name="weight-lifter"
+              size={size}
+              color={color}
+            />
+          ),
+          headerRight: () => <ModalLink />,
+        }}
+      />
+      <Tabs.Screen
+        name="(tabs2)"
+        options={{
+          headerShown: false,
         }}
       />
     </Tabs>
