@@ -1,3 +1,7 @@
 Features:
 - Previous ghost sets 
 - Show drills before starting lift
+- User has current_workout_id which can be passed into /../../../current-wourkout ??
+
+Broken
+- Drawer (Re Animate) not working
