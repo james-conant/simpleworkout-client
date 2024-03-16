@@ -2,11 +2,11 @@ import { useAuth } from "@/context/AuthProvider";
 import { Button } from "react-native";
 
 const LoginButton = () => {
-  const {  } = useAuth();
+  const { login } = useAuth();
 
   const onPress = async () => {
     try {
-      await authorize();
+      await login();
     } catch (e) {
       console.log(e);
     }

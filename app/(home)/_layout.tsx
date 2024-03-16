@@ -1,12 +1,7 @@
 import React from "react";
-import { Link, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-
-const ModalLink = () => (
-  <Link href="/modal">
-    <Ionicons name="menu" size={35} />
-  </Link>
-);
+import ModalLink from "@/components/header/ModalLink";
 
 export default function TabsLayout() {
   return (
@@ -29,12 +24,12 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="account"
+        name="current-workout"
         options={{
           title: "Current Workout",
           headerShown: true,
           href: {
-            pathname: "/account",
+            pathname: "/current-workout",
           },
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons
@@ -43,6 +38,14 @@ export default function TabsLayout() {
               color={color}
             />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="programs"
+        options={{
+          title: "Programs",
+          headerTitle: "Programs",
+          href: null,
         }}
       />
     </Tabs>

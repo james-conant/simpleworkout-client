@@ -1,44 +1,44 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { AsyncStorage } from "react-native";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSegments, useRouter } from "expo-router";
-import Auth0, { useAuth0 } from "react-native-auth0";
-
-type User = {
-  name: string;
-};
+import { useAuth0 } from "react-native-auth0";
+import "core-js/stable/atob";
+import { useFetchUser } from "./contextUtils";
+import { User } from "@/types/types";
 
 type AuthType = {
   user: User | null;
-  token: string;
+  login: () => Promise<void>;
+  logout: () => void;
 };
 
 const AuthContext = createContext<AuthType>({
   user: null,
-  token: "",
+  login: () => Promise.resolve(),
+  logout: () => {},
 });
 
 export const useAuth = () => useContext(AuthContext);
 
-function useProtectedRoute(user: any) {
+function useProtectedRoute(dbUser: User | null) {
   const segments = useSegments();
   const router = useRouter();
+  const { user } = useAuth0();
 
   useEffect(() => {
     const inAuthGroup = segments[0] === "(auth)";
 
     if (
       // If the user is not signed in and the initial segment is not anything in the auth group.
-      !user &&
-      !inAuthGroup
+      (!user && !inAuthGroup) ||
+      !dbUser
     ) {
       // Redirect to the sign-in page.
       router.replace("/login");
     } else if (user && inAuthGroup) {
-      // Redirect away from the sign-in page.
       router.replace("/home");
     }
-  }, [user, segments]);
+  }, [user, dbUser, segments]);
 }
 
 export function AuthProvider({
@@ -46,44 +46,57 @@ export function AuthProvider({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  const { authorize, user } = useAuth0();
-  const [token, setToken] = useState<string | null>(null);
+  const { authorize, clearSession, user: auth0User } = useAuth0();
+  const [user, setUser] = useState<User | null>(null);
 
-  const auth0 = new Auth0({
-    domain: "dev-sw6s7q1oda2gdtei.us.auth0.com",
-    clientId: "jjILNCpn9XGBMGUUfnZl5ZO58zEoZ3ip",
-  });
+  const fetchUser = async () => {
+    if (auth0User) {
+      try {
+        const result = await useFetchUser();
+        setUser(result);
+      } catch (error) {
+        console.error("Can not fetch user:", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, [auth0User]);
 
   const login = async () => {
     try {
-      const credentials = await auth0.webAuth.authorize({
-        scope: "openid profile email", // Add any additional scopes you need
+      const getAuthorized = await authorize({
+        audience: "https://simpleworkoutAPI",
       });
-      // Save token to AsyncStorage
-      AsyncStorage.setItem("token", credentials.accessToken);
-      setToken(credentials.accessToken);
+      const accessToken = getAuthorized?.accessToken ?? "";
+      AsyncStorage.setItem("token", accessToken);
     } catch (error) {
       console.error("Failed to login:", error);
     }
   };
 
-  const authorizeUser = async () => {
-    gimmeToken();
+  const logout = async () => {
+    try {
+      await clearSession();
+      setUser(null);
+      AsyncStorage.removeItem("token");
+    } catch (error) {
+      console.error("Failed to logout:", error);
+    }
   };
-
   useProtectedRoute(user);
 
   type AuthType = {
     user: User | null;
-    token: string;
-    authorizeUser: () => void;
+    login: () => Promise<void>;
+    logout: () => void;
   };
 
   const authContext: AuthType = {
-    user: {
-      name: user?.name || "",
-    },
-    token: "",
+    user,
+    login,
+    logout,
   };
 
   return (

@@ -1,18 +1,21 @@
 {
-  "cli": {
-    "version": ">= 7.1.2"
-  },
-  "build": {
-    "development": {
-      "developmentClient": true,
-      "distribution": "internal"
-    },
-    "preview": {
-      "distribution": "internal"
-    },
-    "production": {}
-  },
-  "submit": {
-    "production": {}
+  "createdAt": "2024-01-30T03:27:24.379+00:00",
+  "current": true,
+  "id": 1,
+  "name": "My First Program",
+  "user": {
+    "authId": "google-oauth2|102526642638227964663",
+    "createdAt": "2024-03-02T16:25:12.644+00:00",
+    "email": "jconant.dev@gmail.com",
+    "emailVerified": true,
+    "familyName": "Conant",
+    "givenName": "James",
+    "id": 47,
+    "lastPasswordReset": null,
+    "name": "James Conant",
+    "phoneNumber": null,
+    "phoneVerified": null,
+    "picture": "https://lh3.googleusercontent.com/a/ACg8ocIXeKf9waNf0H6sGwVzA3fUGTeHCTVUAjkJt-btaZzDow=s96-c",
+    "username": "James Conant"
   }
 }

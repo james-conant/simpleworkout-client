@@ -1,15 +1,14 @@
-import { useAuth0 } from "react-native-auth0";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/context/AuthProvider";
 import { Link } from "expo-router";
 import { Button } from "react-native";
 
 const LogoutButton = () => {
-  const { clearSession } = useAuth0();
+  const { logout } = useAuth();
 
   const onPress = async () => {
     try {
-      await clearSession();
+      await logout();
     } catch (e) {
       console.log(e);
     }

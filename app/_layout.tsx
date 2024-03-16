@@ -1,14 +1,9 @@
-import { Link, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { AuthProvider } from "../context/AuthProvider";
-import { Ionicons } from "@expo/vector-icons";
 import { Auth0Provider } from "react-native-auth0";
+import ModalLink from "@/components/header/ModalLink";
 
 export default function RootLayout() {
-  const ModalLink = () => (
-    <Link href="/modal">
-      <Ionicons name="menu" size={35} />
-    </Link>
-  );
   return (
     <Auth0Provider
       domain={"dev-sw6s7q1oda2gdtei.us.auth0.com"}
@@ -24,13 +19,7 @@ export default function RootLayout() {
               headerRight: () => <ModalLink />,
             }}
           />
-          <Stack.Screen
-            name="(programs)"
-            options={{
-              title: "Programs",
-              headerRight: () => <ModalLink />,
-            }}
-          />
+
           <Stack.Screen
             name="modal"
             options={{
